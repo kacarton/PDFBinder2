@@ -30,7 +30,7 @@ namespace PDFBinder
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.inputListBox = new System.Windows.Forms.ListBox();
+            this.FileListBox = new System.Windows.Forms.ListBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuSetPageRange = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -53,26 +53,26 @@ namespace PDFBinder
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // inputListBox
+            // FileListBox
             // 
-            this.inputListBox.AllowDrop = true;
-            this.inputListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.FileListBox.AllowDrop = true;
+            this.FileListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.inputListBox.ContextMenuStrip = this.contextMenuStrip1;
-            this.inputListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.inputListBox.FormattingEnabled = true;
-            this.inputListBox.IntegralHeight = false;
-            this.inputListBox.ItemHeight = 24;
-            this.inputListBox.Location = new System.Drawing.Point(4, 28);
-            this.inputListBox.Name = "inputListBox";
-            this.inputListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.inputListBox.Size = new System.Drawing.Size(623, 248);
-            this.inputListBox.TabIndex = 0;
-            this.inputListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.inputListBox_DrawItem);
-            this.inputListBox.SelectedIndexChanged += new System.EventHandler(this.inputListBox_SelectedIndexChanged);
-            this.inputListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.inputListBox_DragDrop);
-            this.inputListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.inputListBox_DragEnter);
+            this.FileListBox.ContextMenuStrip = this.contextMenuStrip1;
+            this.FileListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.FileListBox.FormattingEnabled = true;
+            this.FileListBox.IntegralHeight = false;
+            this.FileListBox.ItemHeight = 24;
+            this.FileListBox.Location = new System.Drawing.Point(4, 28);
+            this.FileListBox.Name = "FileListBox";
+            this.FileListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.FileListBox.Size = new System.Drawing.Size(623, 248);
+            this.FileListBox.TabIndex = 0;
+            this.FileListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.FileListBox_DrawItem);
+            this.FileListBox.SelectedIndexChanged += new System.EventHandler(this.FileListBox_SelectedIndexChanged);
+            this.FileListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.FileListBox_DragDrop);
+            this.FileListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.FileListBox_DragEnter);
             // 
             // contextMenuStrip1
             // 
@@ -146,7 +146,7 @@ namespace PDFBinder
             // 
             // progressBar
             // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar.Location = new System.Drawing.Point(4, 284);
             this.progressBar.Name = "progressBar";
@@ -156,7 +156,7 @@ namespace PDFBinder
             // 
             // helpLabel
             // 
-            this.helpLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.helpLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.helpLabel.AutoSize = true;
             this.helpLabel.Location = new System.Drawing.Point(4, 284);
@@ -248,7 +248,7 @@ namespace PDFBinder
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.helpLabel);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.inputListBox);
+            this.Controls.Add(this.FileListBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(437, 214);
             this.Name = "MainForm";
@@ -265,7 +265,7 @@ namespace PDFBinder
 
         #endregion
 
-        private System.Windows.Forms.ListBox inputListBox;
+        private System.Windows.Forms.ListBox FileListBox;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton addFileButton;
         private System.Windows.Forms.ToolStripButton moveUpButton;
@@ -286,4 +286,3 @@ namespace PDFBinder
         private System.Windows.Forms.ToolStripMenuItem mnuClear;
     }
 }
-
