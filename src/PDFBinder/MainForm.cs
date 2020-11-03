@@ -11,6 +11,15 @@ namespace PDFBinder
 {
     public partial class MainForm : Form
     {
+        class PdfInfo
+        {
+            public string Fullname, //path\filename
+                Filename,           //filename
+                Ranges;             //page ranges, ex: 1-5,8,10-12
+            public int TotalPages;  //pages of pdf file.
+
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -29,7 +38,8 @@ namespace PDFBinder
                     MessageBox.Show(string.Format("PDF文档不允许复制:\n\n{0}", file), "权限不足", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     break;
                 case Combiner.SourceTestResult.Ok:
-                    FileListBox.Items.Add(file + "\n\n" + Pages.ToString());
+                    //FileListBox.Items.Add(file + "\n\n" + Pages.ToString());
+                    FileListBox.Items.Add(new PdfInfo() { Fullname = file, Filename = Path.GetFileName(file), Ranges = "", TotalPages = Pages });
                     break;
             }
         }
@@ -42,7 +52,8 @@ namespace PDFBinder
                 completeButton.Enabled = false;
                 helpLabel.Text = "请拖放PDF文档到列表框中，或点击工具栏的“添加文档...”按钮";
             }
-            else if (FileListBox.Items.Count == 1 && ((string)FileListBox.Items[0]).Split('\n')[1]!="")
+            //else if (FileListBox.Items.Count == 1 && ((string)FileListBox.Items[0]).Split('\n')[1]!="")
+            else if (FileListBox.Items.Count == 1 && ((PdfInfo)FileListBox.Items[0]).Ranges != "")
             {
                 sortButton.Enabled = false;
                 completeButton.Enabled = true;
@@ -108,7 +119,8 @@ namespace PDFBinder
 
                     for (int i = 0; i < FileListBox.Items.Count; i++)
                     {
-                        combiner.AddFile(((string)FileListBox.Items[i]).Split('\n')[0], ((string)FileListBox.Items[i]).Split('\n')[1]);
+                        //combiner.AddFile(((string)FileListBox.Items[i]).Split('\n')[0], ((string)FileListBox.Items[i]).Split('\n')[1]);
+                        combiner.AddFile(((PdfInfo)FileListBox.Items[i]).Fullname, ((PdfInfo)FileListBox.Items[i]).Ranges);
                         progressBar.Value = (int)(((i + 1) / (double)FileListBox.Items.Count) * 100);
                     }
 
@@ -189,6 +201,7 @@ namespace PDFBinder
 
         private void FileListBox_DrawItem(object sender, DrawItemEventArgs e)
         {
+            const int RIGHT_MARGIN = 130;
             if (e.Index < 0) return;
 
             Brush myBrush = Brushes.Black;
@@ -197,7 +210,7 @@ namespace PDFBinder
             {
                 myBrush = new SolidBrush(ColorSelected);
             }
-            else if (e.Index % 2 == 0)
+            else if (e.Index % 2 == 1)
             {
                 myBrush = new SolidBrush(ColorAlt);
             }
@@ -215,7 +228,7 @@ namespace PDFBinder
             Formater.FormatFlags = StringFormatFlags.NoWrap;
 
             //文本 
-            string[] text = FileListBox.Items[e.Index].ToString().Split('\n');
+            /*string[] text = FileListBox.Items[e.Index].ToString().Split('\n');
             if (showNameButton.Checked)
                 e.Graphics.DrawString(text[0], e.Font, Brushes.Black, new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width - 80, e.Bounds.Height), Formater);
             else
@@ -223,6 +236,12 @@ namespace PDFBinder
 
             Formater.Alignment = StringAlignment.Far;
             e.Graphics.DrawString((text[1] == "" ? "" : text[1] + " | ") + "共 " + text[2] + " 页", e.Font, Brushes.Gray, e.Bounds, Formater);
+            */
+            PdfInfo item = (PdfInfo)FileListBox.Items[e.Index];
+            e.Graphics.DrawString(showNameButton.Checked ? item.Fullname : item.Filename, e.Font, Brushes.Black, new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width - RIGHT_MARGIN, e.Bounds.Height), Formater);
+
+            Formater.Alignment = StringAlignment.Far;
+            e.Graphics.DrawString((item.Ranges == "" ? "" : item.Ranges + " | ") + "共 " + item.TotalPages.ToString() + " 页", e.Font, Brushes.Gray, e.Bounds, Formater);
         }
 
         private void showNameButton_Click(object sender, EventArgs e)
@@ -241,33 +260,33 @@ namespace PDFBinder
             else
                 sortButton.Image = PDFBinder.Properties.Resources.sortDesc;
 
-            List<String> list = new List<string>();
-            foreach (String s in FileListBox.Items)
+            List<PdfInfo> list = new List<PdfInfo>();
+            foreach (PdfInfo item in FileListBox.Items)
             {
-                list.Add(s);
+                list.Add(item);
             }
             list.Sort((a, b) =>
             {
                 if ((string)sortButton.Tag == "Asc")
                 {
                     if (showNameButton.Checked)
-                        return a.CompareTo(b);
+                        return a.Fullname.CompareTo(b.Fullname);
                     else
-                        return Path.GetFileName(a.Split('\n')[0]).CompareTo(Path.GetFileName(b.Split('\n')[0]));
+                        return a.Filename.CompareTo(b.Filename);
                 }
                 else
                 {
                     if (showNameButton.Checked)
-                        return b.CompareTo(a);
+                        return b.Fullname.CompareTo(a.Fullname);
                     else
-                        return Path.GetFileName(b.Split('\n')[0]).CompareTo(Path.GetFileName(a.Split('\n')[0]));
+                        return b.Filename.CompareTo(a.Filename);
                 }
             });
 
             FileListBox.Items.Clear();
-            foreach (string s in list)
+            foreach (PdfInfo item in list)
             {
-                FileListBox.Items.Add(s);
+                FileListBox.Items.Add(item);
             }
         }
 
@@ -289,13 +308,13 @@ namespace PDFBinder
 
         private void mnuSetPageRange_Click(object sender, EventArgs e)
         {
-            string text = ((string)FileListBox.SelectedItem);
-            string range = Interaction.InputBox("如：1-5,8,10,13", "设置合并的页码范围或次序", text.Split('\n')[1]);
-            if (range != text.Split('\n')[1])
+            PdfInfo item = ((PdfInfo)FileListBox.SelectedItem);
+            string range = Interaction.InputBox("如：1-5,8,10,13", "设置合并的页码范围或次序", item.Ranges);
+            if (range != item.Ranges)
             {
                 if (range == "")
                 {
-                    FileListBox.Items[FileListBox.SelectedIndex] = text.Split('\n')[0] + "\n\n" + text.Split('\n')[2];
+                    ((PdfInfo)FileListBox.Items[FileListBox.SelectedIndex]).Ranges = "";
                     return;
                 }
 
@@ -312,7 +331,7 @@ namespace PDFBinder
                         return;
                     }
                 }
-                FileListBox.Items[FileListBox.SelectedIndex] = text.Split('\n')[0] + "\n" + range + "\n" + text.Split('\n')[2];
+                ((PdfInfo)FileListBox.Items[FileListBox.SelectedIndex]).Ranges = range;
             }
         }
     }

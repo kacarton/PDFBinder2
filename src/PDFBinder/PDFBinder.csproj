@@ -106,9 +106,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="application.res" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\sortAsc.png" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +125,7 @@
     <None Include="Resources\add.png" />
     <None Include="Resources\del.png" />
     <Content Include="Resources\down.png" />
+    <Content Include="Resources\export.png" />
     <Content Include="Resources\up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
