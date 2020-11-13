@@ -20,6 +20,7 @@ namespace PDFBinder
 
         }
 
+        private System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
         public MainForm()
         {
             InitializeComponent();
@@ -32,10 +33,10 @@ namespace PDFBinder
             switch (Combiner.TestSourceFile(file, out Pages))
             {
                 case Combiner.SourceTestResult.Unreadable:
-                    MessageBox.Show(string.Format("文件不能以PDF格式打开:\n\n{0}", file), "无效的文件类型", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(string.Format(resources.GetString("Error.Unreadable.Text"), file), resources.GetString("Error.Unreadable.Title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case Combiner.SourceTestResult.Protected:
-                    MessageBox.Show(string.Format("PDF文档不允许复制:\n\n{0}", file), "权限不足", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    MessageBox.Show(string.Format(resources.GetString("Error.Protected.Text"), file), resources.GetString("Error.Protected.Title"), MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     break;
                 case Combiner.SourceTestResult.Ok:
                     //FileListBox.Items.Add(file + "\n\n" + Pages.ToString());
@@ -50,28 +51,28 @@ namespace PDFBinder
             {
                 sortButton.Enabled = false;
                 completeButton.Enabled = false;
-                helpLabel.Text = "请拖放PDF文档到列表框中，或点击工具栏的“添加文档...”按钮";
+                helpLabel.Text = resources.GetString("HelpLabel.Empty");
             }
             //else if (FileListBox.Items.Count == 1 && ((string)FileListBox.Items[0]).Split('\n')[1]!="")
             else if (FileListBox.Items.Count == 1 && ((PdfInfo)FileListBox.Items[0]).Ranges != "")
             {
                 sortButton.Enabled = false;
                 completeButton.Enabled = true;
-                completeButton.Text = "拆分文档";
-                helpLabel.Text = "请点击“拆分文档”按钮对文档进行拆分";
+                completeButton.Text = resources.GetString("Split.Text");
+                helpLabel.Text = resources.GetString("HelpLabel.Split");
             }
             else if (FileListBox.Items.Count > 1)
             {
                 sortButton.Enabled = true;
                 completeButton.Enabled = true;
-                completeButton.Text = "合并文档";
-                helpLabel.Text = "请点击“合并文档”按钮对列表中的文档进行合并";
+                completeButton.Text = resources.GetString("completeButton.Text");
+                helpLabel.Text = resources.GetString("HelpLabel.Bind");
             }
             else
             {
                 sortButton.Enabled = false;
                 completeButton.Enabled = false;
-                helpLabel.Text = "请拖放PDF文档到列表框中，或点击工具栏的“添加文档...”按钮";
+                helpLabel.Text = resources.GetString("HelpLabel.Empty");
             }
 
             if (FileListBox.SelectedIndex < 0)
@@ -123,7 +124,6 @@ namespace PDFBinder
                         combiner.AddFile(((PdfInfo)FileListBox.Items[i]).Fullname, ((PdfInfo)FileListBox.Items[i]).Ranges);
                         progressBar.Value = (int)(((i + 1) / (double)FileListBox.Items.Count) * 100);
                     }
-
 
                     this.Enabled = true;
                     progressBar.Visible = false;
@@ -241,12 +241,14 @@ namespace PDFBinder
             e.Graphics.DrawString(showNameButton.Checked ? item.Fullname : item.Filename, e.Font, Brushes.Black, new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width - RIGHT_MARGIN, e.Bounds.Height), Formater);
 
             Formater.Alignment = StringAlignment.Far;
-            e.Graphics.DrawString((item.Ranges == "" ? "" : item.Ranges + " | ") + "共 " + item.TotalPages.ToString() + " 页", e.Font, Brushes.Gray, e.Bounds, Formater);
+            e.Graphics.DrawString((item.Ranges == "" ? "" : item.Ranges + " | ") 
+                + string.Format(item.TotalPages>1 ? resources.GetString("Pages"): resources.GetString("Page"), item.TotalPages)
+                , e.Font, Brushes.Gray, e.Bounds, Formater);
         }
 
         private void showNameButton_Click(object sender, EventArgs e)
         {
-            showNameButton.Text = showNameButton.Checked ? "全" : "简";
+            showNameButton.Text = showNameButton.Checked ? resources.GetString("showNameButton.Full") : resources.GetString("showNameButton.Name");
             FileListBox.Invalidate();
         }
 
@@ -309,7 +311,7 @@ namespace PDFBinder
         private void mnuSetPageRange_Click(object sender, EventArgs e)
         {
             PdfInfo item = ((PdfInfo)FileListBox.SelectedItem);
-            string range = Interaction.InputBox("如：1-5,8,10,13", "设置合并的页码范围或次序", item.Ranges);
+            string range = Interaction.InputBox(resources.GetString("SetPageRange.Prompt"), resources.GetString("SetPageRange.Title"), item.Ranges);
             if (range != item.Ranges)
             {
                 if (range == "")
@@ -327,7 +329,7 @@ namespace PDFBinder
                         range += ("" == range ? "" : ",") + arr[i];
                     else
                     {
-                        MessageBox.Show("页码格式无效!");
+                        MessageBox.Show(resources.GetString("Error.RangeValid")); 
                         return;
                     }
                 }

@@ -25,7 +25,7 @@ using System.IO;
 
 using Microsoft.Win32;
 
-namespace PDFBinder
+namespace PDFBinder2
 {
     [RunInstaller(true)]
     public class ShellInstaller : Installer
