@@ -10,7 +10,7 @@ PDFBinder2是一个简单而易于使用的PDF文档合并/拆分工具。它以
 原项目GitHub资源），增加了列表多选、排序、合并次序调整、设定合并的页码范围等功能，能
 帮助文档工作者快速高效地处理PDF文件。
 
-![screenshot](https://github.com/kacarton/PDFBinder2/docs/main.png)
+![screenshot](https://github.com/kacarton/PDFBinder2/blob/main/docs/main.png?raw=true)
 
 Contents:
 
