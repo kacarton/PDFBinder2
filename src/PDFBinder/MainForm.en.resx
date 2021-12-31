@@ -5028,4 +5028,28 @@
   <data name="Split.Text" xml:space="preserve">
     <value>Split!</value>
   </data>
+  <data name="mnuPageSize_A4.Text" xml:space="preserve">
+    <value>A4</value>
+  </data>
+  <data name="mnuPageSize_A5.Text" xml:space="preserve">
+    <value>A5</value>
+  </data>
+  <data name="mnuPageSize_B4.Text" xml:space="preserve">
+    <value>B4</value>
+  </data>
+  <data name="mnuPageSize_Original.Text" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="PageSizeButton.Text" xml:space="preserve">
+    <value>PageSize</value>
+  </data>
+  <data name="addBookmarkButton.ToolTipText" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="SetBookmark.Prompt" xml:space="preserve">
+    <value>Input bookmark name:</value>
+  </data>
+  <data name="SetBookmark.Title" xml:space="preserve">
+    <value>Append bookmark to PDF</value>
+  </data>
 </root>

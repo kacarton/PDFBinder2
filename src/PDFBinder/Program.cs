@@ -29,6 +29,9 @@ namespace PDFBinder
         [STAThread]
         static void Main(string[] args)
         {
+            if (Environment.OSVersion.Version.Major >= 6)
+                SetProcessDPIAware();
+
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");//zh-CN
 
             // Start uninstallation if command line is /u {product-code}.
@@ -59,5 +62,8 @@ namespace PDFBinder
                 }
             }
         }
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool SetProcessDPIAware();
     }
 }

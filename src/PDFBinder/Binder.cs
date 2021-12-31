@@ -26,15 +26,29 @@ namespace PDFBinder
     class Combiner : IDisposable
     {
         private readonly Document _document;
-        private readonly PdfCopy _pdfCopy;
+        private readonly PdfCopy _pdfCopy = null;
+        private PdfWriter _writer = null;
+        public static string Author = "";//文档作者
+        private PageSize _newPageSize = PageSize.Original;//合并时调整页面尺寸
+        private string BookMarkName = null;
 
-        public Combiner(string outputFilePath)
+        public Combiner(string outputFilePath, PageSize newPageSize = PageSize.Original)
         {
+            _newPageSize = newPageSize;
             var outputStream = File.Create(outputFilePath);
 
             _document = new Document();
-            _pdfCopy = new PdfCopy(_document, outputStream);
+            if (_newPageSize == PageSize.Original)
+                _pdfCopy = new PdfCopy(_document, outputStream);
+            else
+                _writer = PdfWriter.GetInstance(_document, outputStream);
             _document.Open();
+            if (Author != "") _document.AddAuthor(Author);
+        }
+
+        public void AddBookmark(string bookmark)
+        {
+            this.BookMarkName = bookmark;
         }
 
         public void AddFile(string fileName, string range)
@@ -68,12 +82,49 @@ namespace PDFBinder
                 {
                     if (i > reader.NumberOfPages)
                         continue;
-                    var size = reader.GetPageSizeWithRotation(i);
-                    _document.SetPageSize(size);
-                    _document.NewPage();
 
-                    var page = _pdfCopy.GetImportedPage(reader, i);
-                    _pdfCopy.AddPage(page);
+                    var size = reader.GetPageSizeWithRotation(i);
+                    if (_newPageSize == PageSize.Original)
+                    {
+                        _document.SetPageSize(size);
+                    }
+                    else
+                    {
+                        switch(_newPageSize)
+                        {
+                            case PageSize.A4: _document.SetPageSize(iTextSharp.text.PageSize.A4); break;
+                            case PageSize.A5: _document.SetPageSize(iTextSharp.text.PageSize.A5); break;
+                            case PageSize.B4: _document.SetPageSize(iTextSharp.text.PageSize.B4); break;
+                        }
+                        _document.SetMargins(
+                            Math.Max(0, (_document.PageSize.Width - size.Width) / 2),
+                            Math.Max(0, (_document.PageSize.Width - size.Width) / 2),
+                            Math.Max(0, (_document.PageSize.Height - size.Height) / 2),
+                            Math.Max(0, (_document.PageSize.Height - size.Height) / 2)
+                        );
+                    }
+                    _document.NewPage();
+                    
+                    //添加书签
+                    if (!string.IsNullOrEmpty(this.BookMarkName))
+                    { 
+                        Chapter _chapter = new Chapter("", 1);
+                        _chapter.BookmarkTitle = this.BookMarkName;
+                        _chapter.BookmarkOpen = true;
+                        _document.Add(_chapter);
+                        this.BookMarkName = null;
+                    }
+
+                    if (_newPageSize == PageSize.Original)
+                    {
+                        var page = _pdfCopy.GetImportedPage(reader, i);
+                        _pdfCopy.AddPage(page);
+                    }
+                    else
+                    {
+                        var page = _writer.GetImportedPage(reader, i);
+                        _document.Add(iTextSharp.text.Image.GetInstance(page));
+                    }
                 }
             }
 
@@ -109,5 +160,12 @@ namespace PDFBinder
         {
             Ok, Unreadable, Protected
         }
+
+    }
+    
+    //调整页面尺寸为
+    public enum PageSize
+    {
+        Original, A4, B4, A5
     }
 }

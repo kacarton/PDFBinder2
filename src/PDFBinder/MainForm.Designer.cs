@@ -36,19 +36,25 @@ namespace PDFBinder
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuClear = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.addFileButton = new System.Windows.Forms.ToolStripButton();
-            this.removeButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.moveUpButton = new System.Windows.Forms.ToolStripButton();
-            this.moveDownButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.completeButton = new System.Windows.Forms.ToolStripButton();
             this.showNameButton = new System.Windows.Forms.ToolStripButton();
-            this.sortButton = new System.Windows.Forms.ToolStripButton();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.addFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.helpLabel = new System.Windows.Forms.Label();
+            this.addFileButton = new System.Windows.Forms.ToolStripButton();
+            this.addBookmarkButton = new System.Windows.Forms.ToolStripButton();
+            this.removeButton = new System.Windows.Forms.ToolStripButton();
+            this.moveUpButton = new System.Windows.Forms.ToolStripButton();
+            this.moveDownButton = new System.Windows.Forms.ToolStripButton();
+            this.completeButton = new System.Windows.Forms.ToolStripButton();
+            this.sortButton = new System.Windows.Forms.ToolStripButton();
+            this.PageSizeButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.mnuPageSize_Original = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPageSize_A4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPageSize_B4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPageSize_A5 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -99,6 +105,7 @@ namespace PDFBinder
             resources.ApplyResources(this.toolStrip1, "toolStrip1");
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addFileButton,
+            this.addBookmarkButton,
             this.removeButton,
             this.toolStripSeparator1,
             this.moveUpButton,
@@ -106,56 +113,19 @@ namespace PDFBinder
             this.toolStripSeparator2,
             this.completeButton,
             this.showNameButton,
-            this.sortButton});
+            this.sortButton,
+            this.PageSizeButton});
             this.toolStrip1.Name = "toolStrip1";
-            // 
-            // addFileButton
-            // 
-            resources.ApplyResources(this.addFileButton, "addFileButton");
-            this.addFileButton.Image = global::PDFBinder.Properties.Resources.add;
-            this.addFileButton.Name = "addFileButton";
-            this.addFileButton.Click += new System.EventHandler(this.addFileButton_Click);
-            // 
-            // removeButton
-            // 
-            resources.ApplyResources(this.removeButton, "removeButton");
-            this.removeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.removeButton.Image = global::PDFBinder.Properties.Resources.del;
-            this.removeButton.Name = "removeButton";
-            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
             // toolStripSeparator1
             // 
             resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             // 
-            // moveUpButton
-            // 
-            resources.ApplyResources(this.moveUpButton, "moveUpButton");
-            this.moveUpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.moveUpButton.Image = global::PDFBinder.Properties.Resources.up;
-            this.moveUpButton.Name = "moveUpButton";
-            this.moveUpButton.Click += new System.EventHandler(this.moveUpButton_Click);
-            // 
-            // moveDownButton
-            // 
-            resources.ApplyResources(this.moveDownButton, "moveDownButton");
-            this.moveDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.moveDownButton.Image = global::PDFBinder.Properties.Resources.down;
-            this.moveDownButton.Name = "moveDownButton";
-            this.moveDownButton.Click += new System.EventHandler(this.moveDownButton_Click);
-            // 
             // toolStripSeparator2
             // 
             resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            // 
-            // completeButton
-            // 
-            resources.ApplyResources(this.completeButton, "completeButton");
-            this.completeButton.Image = global::PDFBinder.Properties.Resources.export;
-            this.completeButton.Name = "completeButton";
-            this.completeButton.Click += new System.EventHandler(this.combineButton_Click);
             // 
             // showNameButton
             // 
@@ -165,16 +135,6 @@ namespace PDFBinder
             this.showNameButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.showNameButton.Name = "showNameButton";
             this.showNameButton.Click += new System.EventHandler(this.showNameButton_Click);
-            // 
-            // sortButton
-            // 
-            resources.ApplyResources(this.sortButton, "sortButton");
-            this.sortButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.sortButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.sortButton.Image = global::PDFBinder.Properties.Resources.sortNone;
-            this.sortButton.Name = "sortButton";
-            this.sortButton.Tag = "0";
-            this.sortButton.Click += new System.EventHandler(this.sortButton_Click);
             // 
             // saveFileDialog
             // 
@@ -196,6 +156,99 @@ namespace PDFBinder
             // 
             resources.ApplyResources(this.helpLabel, "helpLabel");
             this.helpLabel.Name = "helpLabel";
+            // 
+            // addFileButton
+            // 
+            resources.ApplyResources(this.addFileButton, "addFileButton");
+            this.addFileButton.Image = global::PDFBinder.Properties.Resources.add;
+            this.addFileButton.Name = "addFileButton";
+            this.addFileButton.Click += new System.EventHandler(this.addFileButton_Click);
+            // 
+            // addBookmarkButton
+            // 
+            resources.ApplyResources(this.addBookmarkButton, "addBookmarkButton");
+            this.addBookmarkButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.addBookmarkButton.Image = global::PDFBinder.Properties.Resources.bookmark;
+            this.addBookmarkButton.Name = "addBookmarkButton";
+            this.addBookmarkButton.Click += new System.EventHandler(this.addBookmarkButton_Click);
+            // 
+            // removeButton
+            // 
+            resources.ApplyResources(this.removeButton, "removeButton");
+            this.removeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.removeButton.Image = global::PDFBinder.Properties.Resources.del;
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            // 
+            // moveUpButton
+            // 
+            resources.ApplyResources(this.moveUpButton, "moveUpButton");
+            this.moveUpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.moveUpButton.Image = global::PDFBinder.Properties.Resources.up;
+            this.moveUpButton.Name = "moveUpButton";
+            this.moveUpButton.Click += new System.EventHandler(this.moveUpButton_Click);
+            // 
+            // moveDownButton
+            // 
+            resources.ApplyResources(this.moveDownButton, "moveDownButton");
+            this.moveDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.moveDownButton.Image = global::PDFBinder.Properties.Resources.down;
+            this.moveDownButton.Name = "moveDownButton";
+            this.moveDownButton.Click += new System.EventHandler(this.moveDownButton_Click);
+            // 
+            // completeButton
+            // 
+            resources.ApplyResources(this.completeButton, "completeButton");
+            this.completeButton.Image = global::PDFBinder.Properties.Resources.export;
+            this.completeButton.Name = "completeButton";
+            this.completeButton.Click += new System.EventHandler(this.combineButton_Click);
+            // 
+            // sortButton
+            // 
+            resources.ApplyResources(this.sortButton, "sortButton");
+            this.sortButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.sortButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.sortButton.Image = global::PDFBinder.Properties.Resources.sortNone;
+            this.sortButton.Name = "sortButton";
+            this.sortButton.Tag = "0";
+            this.sortButton.Click += new System.EventHandler(this.sortButton_Click);
+            // 
+            // PageSizeButton
+            // 
+            resources.ApplyResources(this.PageSizeButton, "PageSizeButton");
+            this.PageSizeButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.PageSizeButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuPageSize_Original,
+            this.mnuPageSize_A4,
+            this.mnuPageSize_B4,
+            this.mnuPageSize_A5});
+            this.PageSizeButton.Name = "PageSizeButton";
+            // 
+            // mnuPageSize_Original
+            // 
+            resources.ApplyResources(this.mnuPageSize_Original, "mnuPageSize_Original");
+            this.mnuPageSize_Original.Checked = true;
+            this.mnuPageSize_Original.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuPageSize_Original.Name = "mnuPageSize_Original";
+            this.mnuPageSize_Original.Click += new System.EventHandler(this.OnPageSizeChanged);
+            // 
+            // mnuPageSize_A4
+            // 
+            resources.ApplyResources(this.mnuPageSize_A4, "mnuPageSize_A4");
+            this.mnuPageSize_A4.Name = "mnuPageSize_A4";
+            this.mnuPageSize_A4.Click += new System.EventHandler(this.OnPageSizeChanged);
+            // 
+            // mnuPageSize_B4
+            // 
+            resources.ApplyResources(this.mnuPageSize_B4, "mnuPageSize_B4");
+            this.mnuPageSize_B4.Name = "mnuPageSize_B4";
+            this.mnuPageSize_B4.Click += new System.EventHandler(this.OnPageSizeChanged);
+            // 
+            // mnuPageSize_A5
+            // 
+            resources.ApplyResources(this.mnuPageSize_A5, "mnuPageSize_A5");
+            this.mnuPageSize_A5.Name = "mnuPageSize_A5";
+            this.mnuPageSize_A5.Click += new System.EventHandler(this.OnPageSizeChanged);
             // 
             // MainForm
             // 
@@ -236,5 +289,11 @@ namespace PDFBinder
         private System.Windows.Forms.ToolStripMenuItem mnuSetPageRange;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem mnuClear;
+        private System.Windows.Forms.ToolStripDropDownButton PageSizeButton;
+        private System.Windows.Forms.ToolStripMenuItem mnuPageSize_Original;
+        private System.Windows.Forms.ToolStripMenuItem mnuPageSize_A4;
+        private System.Windows.Forms.ToolStripMenuItem mnuPageSize_B4;
+        private System.Windows.Forms.ToolStripMenuItem mnuPageSize_A5;
+        private System.Windows.Forms.ToolStripButton addBookmarkButton;
     }
 }
